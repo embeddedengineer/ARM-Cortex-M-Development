@@ -54,7 +54,7 @@ main-build: bluePill.elf secondary-outputs
 
 # Tool invocations
 bluePill.elf: $(OBJS) $(USER_OBJS) /home/abdelrhman/Documents/ARM_Development/Microcontroller_Embedded_C_Programming_absolute_beginners/Development_Workspace/target/bluePill/STM32F103C8TX_FLASH.ld
-	arm-none-eabi-gcc -o "bluePill.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"/home/abdelrhman/Documents/ARM_Development/Microcontroller_Embedded_C_Programming_absolute_beginners/Development_Workspace/target/bluePill/STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="bluePill.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+	arm-none-eabi-gcc -o "bluePill.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"/home/abdelrhman/Documents/ARM_Development/Microcontroller_Embedded_C_Programming_absolute_beginners/Development_Workspace/target/bluePill/STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="bluePill.map" -Wl,--gc-sections -static -specs=rdimon.specs -lc -lrdimon --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
