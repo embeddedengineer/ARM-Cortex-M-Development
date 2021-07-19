@@ -11,31 +11,35 @@
 #include <stdio.h>
 #include <stdint.h>
 
-#define GPIO_BASE_ADDR      (0x40010800)
+#define GPIOA_BASE_ADDR      (0x40010800)
+#define GPIOB_BASE_ADDR      (0x40010C00)
 
 #define GPIO_CONFG_RESET    (0x0F)
 #define GPIO_CONFG_OFFSET   (0x02)
 
-typedef enum pinMode {
+typedef enum {
 	INPUT = 0,
 	OUTPUT_10MHZ,
 	OUTPUT_2MHZ,
 	OUTPUT_50MHZ
-}pinMode;
+}pinMode_e;
 
-typedef enum pinConf {
+typedef enum {
 	GP_OUT_PUSH_PULL = 0,
+	ANALOG_MODE = 0,
 	GP_OUT_OPEN_DRAIN = 4,
+	FLOATING_INPUT = 4,
 	ALT_FUN_OUT_PUSH_PULL = 8,
+	GP_IN_PULL_UP_DOWN = 8,
 	ALT_FUN_OUT_OPEN_DRAIN = 12
-}pinConf;
+}pinConf_e;
 
-typedef enum pinState {
+typedef enum {
 	LOW = 0,
 	HIGH
-}pinState;
+}pinState_e;
 
-typedef union _CRL {
+typedef union {
 	struct {
 		uint32_t MODE0 : 2;
 		uint32_t CNF0  : 2;
@@ -55,9 +59,9 @@ typedef union _CRL {
 		uint32_t CNF7  : 2;
 	};
 	uint32_t val;
-}_CRL;
+}CRL_t;
 
-typedef union _CRH {
+typedef union {
 	struct {
 		uint32_t MODE8  : 2;
 		uint32_t CNF8   : 2;
@@ -77,16 +81,32 @@ typedef union _CRH {
 		uint32_t CNF15  : 2;
 	};
 	uint32_t val;
-}_CRH;
+}CRH_t;
 
-typedef union _IDR {
+typedef union {
 	struct {
-		uint32_t       : 32;
+		uint32_t IDR0  : 1;
+		uint32_t IDR1  : 1;
+		uint32_t IDR2  : 1;
+		uint32_t IDR3  : 1;
+		uint32_t IDR4  : 1;
+		uint32_t IDR5  : 1;
+		uint32_t IDR6  : 1;
+		uint32_t IDR7  : 1;
+		uint32_t IDR8  : 1;
+		uint32_t IDR9  : 1;
+		uint32_t IDR10 : 1;
+		uint32_t IDR11 : 1;
+		uint32_t IDR12 : 1;
+		uint32_t IDR13 : 1;
+		uint32_t IDR14 : 1;
+		uint32_t IDR15 : 1;
+		uint32_t       : 16;
 	};
 	uint32_t val;
-}_IDR;
+}IDR_t;
 
-typedef union _ODR {
+typedef union {
 	struct {
 		uint32_t ODR0  : 1;
 		uint32_t ODR1  : 1;
@@ -107,16 +127,36 @@ typedef union _ODR {
 		uint32_t       : 16;
 	};
 	uint32_t val;
-}_ODR;
+}ODR_t;
 
-typedef struct _GPIOA {
-	_CRL CRL;
-	_CRH CRH;
-	_IDR IDR;
-	_ODR ODR;
-}_GPIOA;
+typedef struct {
+	CRL_t CRL;
+	CRH_t CRH;
+	IDR_t IDR;
+	ODR_t ODR;
+}GPIO_t;
 
-void gpioA_setPinConf(uint8_t, pinMode, pinConf);
-void gpioA_setPinState(uint8_t, pinState);
+// GPIOA APIs
+extern void gpioA_setPinConfLow(uint8_t, pinMode_e, pinConf_e);
+extern void gpioA_setPinConfHigh(uint8_t, pinMode_e, pinConf_e);
+extern void gpioA_setPinState(uint8_t, pinState_e);
+extern uint8_t gpioA_readInputPinState(uint8_t);
+extern uint8_t gpioA_readOutputPinState(uint8_t);
+extern void gpioA_setPortConfLow(uint32_t);
+extern void gpioA_setPortConfHigh(uint32_t);
+extern void gpioA_togglePinState(uint8_t);
+extern void gpioA_setPortState(uint32_t);
+extern uint32_t gpioA_getPortState(void);
 
+// GPIOB APIs
+extern void gpioB_setPinConfLow(uint8_t, pinMode_e, pinConf_e);
+extern void gpioB_setPinConfHigh(uint8_t, pinMode_e, pinConf_e);
+extern void gpioB_setPinState(uint8_t, pinState_e);
+extern uint8_t gpioB_readInputPinState(uint8_t);
+extern uint8_t gpioB_readOutputPinState(uint8_t);
+extern void gpioB_setPortConfLow(uint32_t);
+extern void gpioB_setPortConfHigh(uint32_t);
+extern void gpioB_togglePinState(uint8_t);
+extern void gpioB_setPortState(uint32_t);
+extern uint32_t gpioB_getPortState(void);
 #endif /* MCAL_GPIO_H_ */

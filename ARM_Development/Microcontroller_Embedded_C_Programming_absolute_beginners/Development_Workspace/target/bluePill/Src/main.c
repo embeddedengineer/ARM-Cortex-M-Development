@@ -19,24 +19,22 @@
 
 #include <stdio.h>
 #include <stdint.h>
-#include "MCAL/mcal_rcc.h"
-#include "MCAL/mcal_gpio.h"
+#include "HAL/hal_led.h"
+#include "HAL/hal_switch.h"
+#include "HAL/hal_keypad.h"
 
 extern void initialise_monitor_handles(void);
 
-int main(void)
-{
+int main(void) {
 	initialise_monitor_handles();
-
-	rcc_gpioPortClkEnable(GPIOA);
-	gpioA_setPinConf(0, OUTPUT_10MHZ, GP_OUT_PUSH_PULL);
-	gpioA_setPinConf(1, OUTPUT_10MHZ, GP_OUT_PUSH_PULL);
-
-	printf("Turning on led number 1\r\n");
-	gpioA_setPinState(0, HIGH);
-	printf("Turning on led number 2\r\n");
-	gpioA_setPinState(1, HIGH);
-
+	led_init();
+	keypad_init();
+	char volatile key;
 	/* Loop forever */
-	for(;;);
+	for(;;) {
+		key = keypad_getPressedKey();
+		if(key != (char)-1) {
+			printf("The pressed key is %c\r\n",key);
+		}
+	}
 }

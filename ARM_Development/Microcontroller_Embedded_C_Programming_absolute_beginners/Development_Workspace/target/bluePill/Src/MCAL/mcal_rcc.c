@@ -8,8 +8,8 @@
 
 #include "mcal_rcc.h"
 
-static volatile _RCC *RCC = (volatile _RCC *) RCC_BASE_ADDR;
+static RCC_t volatile *RCC = (RCC_t volatile*) RCC_BASE_ADDR;
 
-void rcc_gpioPortClkEnable(gpioPort port) {
-	RCC->APB2ENR.val |= (1 << port);
+void rcc_gpioPortClkEnable(gpioPort_e gpioPort) {
+	RCC->APB2ENR.val |= (1 << gpioPort);
 }

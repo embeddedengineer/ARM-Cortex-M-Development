@@ -12,7 +12,7 @@
 
 #define RCC_BASE_ADDR (0x40021000)
 
-typedef enum gpioPort {
+typedef enum {
 	GPIOA = 2,
 	GPIOB,
 	GPIOC,
@@ -20,51 +20,51 @@ typedef enum gpioPort {
 	GPIOE,
 	GPIOF,
 	GPIOG
-}gpioPort;
+}gpioPort_e;
 
-typedef union _RC {
+typedef union {
 	struct {
 		uint32_t       : 32;
 	};
 	uint32_t val;
-}_RC;
+}RC_t;
 
-typedef union _CFGR {
+typedef union {
 	struct {
 		uint32_t       : 32;
 	};
 	uint32_t val;
-}_CFGR;
+}CFGR_t;
 
 typedef union _CIR {
 	struct {
 		uint32_t       : 32;
 	};
 	uint32_t val;
-}_CIR;
+}CIR_t;
 
-typedef union _APB2RSTR {
+typedef union {
 	struct {
 		uint32_t       : 32;
 	};
 	uint32_t val;
-}_APB2RSTR;
+}APB2RSTR_t;
 
-typedef union _APB1RSTR {
+typedef union {
 	struct {
 		uint32_t       : 32;
 	};
 	uint32_t val;
-}_APB1RSTR;
+}APB1RSTR_t;
 
-typedef union _AHBENR {
+typedef union {
 	struct {
 		uint32_t       : 32;
 	};
 	uint32_t val;
-}_AHBENR;
+}AHBENR_t;
 
-typedef union _APB2ENR {
+typedef union {
 	struct {
 		uint32_t AFIO  : 1;
 		uint32_t       : 1;
@@ -89,18 +89,18 @@ typedef union _APB2ENR {
 		uint32_t       : 10;
 	};
 	uint32_t val;
-}_APB2ENR;
+}APB2ENR_t;
 
-typedef struct _RCC {
-	_RC       RC;
-	_CFGR     CFGR;
-	_CIR      CIR;
-	_APB2RSTR APB2RSTR;
-	_APB1RSTR APB1RSTR;
-	_AHBENR   AHBENR;
-	_APB2ENR  APB2ENR;
-}_RCC;
+typedef struct {
+	RC_t       RC;
+	CFGR_t     CFGR;
+	CIR_t      CIR;
+	APB2RSTR_t APB2RSTR;
+	APB1RSTR_t APB1RSTR;
+	AHBENR_t   AHBENR;
+	APB2ENR_t  APB2ENR;
+}RCC_t;
 
-extern void rcc_gpioPortClkEnable(gpioPort);
+extern void rcc_gpioPortClkEnable(gpioPort_e);
 
 #endif /* MCAL_RCC_H_ */
